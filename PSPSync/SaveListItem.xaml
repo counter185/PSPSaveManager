@@ -8,10 +8,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Image x:Name="GamePic" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="136" Margin="0,13,0,0"/>
-        <Label x:Name="GameName" Content="Game name" HorizontalAlignment="Left" Margin="141,0,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <Label x:Name="GameInfo" Content="info" HorizontalAlignment="Left" Margin="141,13,0,0" VerticalAlignment="Top" FontSize="11"/>
-        <Label x:Name="GameDate" Content="directory" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" FontSize="10"/>
-        <Label x:Name="GameInfo2" Content="info" HorizontalAlignment="Left" Margin="141,29,0,0" VerticalAlignment="Top" FontSize="11"/>
+        <Label x:Name="GameName" Content="Game name" HorizontalAlignment="Left" Margin="141,0,0,0" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
+        <Label x:Name="GameInfo" Content="info" HorizontalAlignment="Left" Margin="141,13,0,0" VerticalAlignment="Top" FontSize="11" Foreground="White"/>
+        <Label x:Name="GameDate" Content="directory" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White"/>
+        <Label x:Name="GameInfo2" Content="info" HorizontalAlignment="Left" Margin="141,29,0,0" VerticalAlignment="Top" FontSize="11" Foreground="White"/>
 
     </Grid>
 </UserControl>

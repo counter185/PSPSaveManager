@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:PSPSync"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="Colors.xaml" />
     </Application.Resources>
 </Application>

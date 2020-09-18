@@ -72,6 +72,10 @@
     <Compile Include="SaveListItem.xaml.cs">
       <DependentUpon>SaveListItem.xaml</DependentUpon>
     </Compile>
+    <Page Include="Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CompareWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
