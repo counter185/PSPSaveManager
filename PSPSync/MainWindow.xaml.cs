@@ -14,8 +14,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PSPSync
 {
@@ -166,13 +164,21 @@ namespace PSPSync
                 storageDevices.Add(new PSPSaveDir(a.path, a.name));
                 i++;
             }
+            string cmaPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/PS Vita/PSAVEDATA/";
+            if (Directory.Exists(cmaPath)) {
+                foreach (string a in Directory.GetDirectories(cmaPath)) {
+                    storageDevices.Add(new PSPSaveDir(a, $"PS Vita Content Manager [{System.IO.Path.GetDirectoryName(a)}]"));
+                }
+            }
+
             foreach (string a in Directory.GetLogicalDrives()) {
+
                 if (Directory.Exists(a + "/pspemu/PSP/"))
                 {
-                    storageDevices.Add(new PSPSaveDir(a + "/pspemu/PSP/SAVEDATA/", "[" + a + "] PS Vita (SD or USB)"));
+                    storageDevices.Add(new PSPSaveDir(a + "/pspemu/PSP/SAVEDATA/", $"[{a}] PS Vita (SD or USB)"));
                 }
                 if (Directory.Exists(a + "/PSP/")) {
-                    storageDevices.Add(new PSPSaveDir(a + "/PSP/SAVEDATA/", "[" + a + "] PSP Memory Stick"));
+                    storageDevices.Add(new PSPSaveDir(a + "/PSP/SAVEDATA/", $"[{a}] PSP Memory Stick"));
                 }
             }
 
@@ -209,7 +215,7 @@ namespace PSPSync
 
         private void SD1toSD2_Click(object sender, RoutedEventArgs e)
         {
-            if (sd1offline || sd2offline || IsOnTheSameDevice() || StorageDevice1.SelectedIndex == -1 || SD1s.SelectedIndex == -1) {
+            if (CannotCopy()) {
                 return;
             }
             IStorageDevice sd = storageDevices[StorageDevice1.SelectedIndex];
@@ -218,9 +224,15 @@ namespace PSPSync
             CopySave(currentmeta, GetMetaFromID(sd2Saves, GetGameID(currentmeta.directory)), files, storageDevices[StorageDevice2.SelectedIndex]);
         }
 
+        public bool CannotCopy() {
+            return sd1offline || sd2offline || IsOnTheSameDevice() ||
+                StorageDevice2.SelectedIndex == -1 || SD2s.SelectedIndex == -1 ||
+                StorageDevice1.SelectedIndex == -1 || SD1s.SelectedIndex == -1;
+        }
+
         private void SD2toSD1_Click(object sender, RoutedEventArgs e)
         {
-            if (sd1offline || sd2offline || IsOnTheSameDevice() || StorageDevice2.SelectedIndex == -1 || SD2s.SelectedIndex == -1)
+            if (CannotCopy())
             {
                 return;
             }
