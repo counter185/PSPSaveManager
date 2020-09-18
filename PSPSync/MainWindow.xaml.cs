@@ -35,6 +35,14 @@ namespace PSPSync
             UpdateStorageDeviceList();
             UpdateStorageDeviceItems();
             EventHandlers();
+            this.SizeChanged += delegate
+            {
+                double epic = (this.Width - 57) / 2d;
+                SD1s.Width = epic - SD1s.Margin.Left;
+                SD2s.Width = epic - SD2s.Margin.Right;
+
+                SD1toSD2.Margin.Left = SD1s.Margin.Left;
+            };
         }
 
         public void EventHandlers() {
@@ -49,6 +57,7 @@ namespace PSPSync
             removeWatcher.EventArrived += new EventArrivedEventHandler(DeviceRemovedEvent);
             removeWatcher.Start();
         }
+
         public void DeviceInsertedEvent(object sender, EventArrivedEventArgs e) {
             Console.WriteLine("Device inserted");
             Dispatcher.Invoke(delegate

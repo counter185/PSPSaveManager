@@ -6,14 +6,16 @@
         xmlns:local="clr-namespace:PSPSync"
         mc:Ignorable="d"
         Title="CompareWindow" Height="344" Width="800">
-    <Grid>
+    <Grid Background="{StaticResource mainColor}">
+        <Rectangle Fill="{StaticResource subColor}" HorizontalAlignment="Left" Height="95" Margin="10,91,0,0" Stroke="Transparent" VerticalAlignment="Top" Width="387"/>
+        <Rectangle Fill="{StaticResource subColor}" HorizontalAlignment="Left" Height="95" Margin="399,91,0,0" Stroke="Transparent" VerticalAlignment="Top" Width="393"/>
         <local:SaveListItem x:Name="srcItem" HorizontalAlignment="Left" Height="100" Margin="10,91,0,0" VerticalAlignment="Top" Width="384"/>
         <local:SaveListItem x:Name="dstItem" HorizontalAlignment="Left" Height="100" Margin="399,91,0,0" VerticalAlignment="Top" Width="384"/>
-        <Label x:Name="title" Content="A save already exists in {}" HorizontalAlignment="Left" Margin="134,24,0,0" VerticalAlignment="Top" Width="522" FontSize="16"/>
-        <Label x:Name="srcDesc" Content="already in {}" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center"/>
-        <Label Content="being copied" HorizontalAlignment="Left" Margin="394,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center"/>
-        <Button x:Name="KeepSRC" Content="Keep" HorizontalAlignment="Left" Margin="162,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepSRC_Click"/>
-        <Button x:Name="KeepDST" Content="Keep" HorizontalAlignment="Left" Margin="553,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepDST_Click"/>
+        <Label x:Name="title" Content="A save already exists in {}" HorizontalAlignment="Left" Margin="134,24,0,0" VerticalAlignment="Top" Width="522" FontSize="16" Foreground="White"/>
+        <Label x:Name="srcDesc" Content="already in {}" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center" Foreground="White"/>
+        <Label Content="being copied" HorizontalAlignment="Left" Margin="394,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center" Foreground="White"/>
+        <Button x:Name="KeepSRC" Content="Keep" HorizontalAlignment="Left" Margin="162,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepSRC_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
+        <Button x:Name="KeepDST" Content="Keep" HorizontalAlignment="Left" Margin="553,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepDST_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="164" Margin="398,69,0,0" VerticalAlignment="Top" Width="1" RenderTransformOrigin="0.5,0.5">
             <Rectangle.RenderTransform>
                 <TransformGroup>
