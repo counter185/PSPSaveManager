@@ -164,10 +164,11 @@ namespace PSPSync
                 storageDevices.Add(new PSPSaveDir(a.path, a.name));
                 i++;
             }
-            string cmaPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/PS Vita/PSAVEDATA/";
+            string cmaPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/Documents/PS Vita/PSAVEDATA/";
             if (Directory.Exists(cmaPath)) {
                 foreach (string a in Directory.GetDirectories(cmaPath)) {
-                    storageDevices.Add(new PSPSaveDir(a, $"PS Vita Content Manager [{System.IO.Path.GetDirectoryName(a)}]"));
+                    Console.WriteLine(a);
+                    storageDevices.Add(new PSPSaveDir(a, $"PS Vita Content Manager [{GetGameID(a)}]"));
                 }
             }
 
