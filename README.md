@@ -1,8 +1,10 @@
-#PSP Save Manager
+# PSP Save Manager
 This is, as the name would suggest, a save manager for PSP save files. 
-It automatically scans connected drives and MTP devices to find the right save directories 
+
+It automatically scans connected drives and MTP devices to find the right save directories. 
+
 Right now it allows you to copy, overwrite and delete saves directly between PPSSPP save folders and real PSP memory cards 
-connected as a Windows removable drive and MTP
+connected as a Windows removable drives or MTP
 
 ![Preview image](preview1.png)
 
