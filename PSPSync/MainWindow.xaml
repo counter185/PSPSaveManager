@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PSPSync"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="890.175">
+        Title="PSP Save Manager" Height="450" Width="890.175">
     <Grid>
         <ComboBox x:Name="StorageDevice1" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="414" SelectionChanged="StorageDevice1_SelectionChanged"/>
         <ListBox x:Name="SD1s" HorizontalAlignment="Left" Height="333" Margin="10,76,0,0" VerticalAlignment="Top" Width="414"/>
@@ -16,7 +16,8 @@
         <Button x:Name="Sync" Content="Sync" HorizontalAlignment="Left" Margin="432,291,0,0" VerticalAlignment="Top" Width="30" Click="Sync_Click"/>
         <Button x:Name="SD1Delete" Content="Delete" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Width="45" Click="SD1Delete_Click"/>
         <Button x:Name="SD2Delete" Content="Delete" HorizontalAlignment="Left" Margin="827,24,0,0" VerticalAlignment="Top" Width="45" Click="SD2Delete_Click"/>
-        <Button x:Name="Config" Content="Settings" HorizontalAlignment="Left" Margin="413,10,0,0" VerticalAlignment="Top" Width="74" Click="Config_Click"/>
+        <Button x:Name="Config" Content="Settings" HorizontalAlignment="Left" Margin="452,10,0,0" VerticalAlignment="Top" Width="74" Click="Config_Click"/>
+        <Button x:Name="RescanDrives" Content="Refresh drives" HorizontalAlignment="Left" Margin="362,10,0,0" VerticalAlignment="Top" Width="85" Click="RescanDrives_Click"/>
 
     </Grid>
 </Window>

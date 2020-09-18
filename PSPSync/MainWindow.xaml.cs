@@ -167,7 +167,9 @@ namespace PSPSync
         }
 
         public SaveMeta GetMetaFromID(List<SaveMeta> list, string ID) {
+            //Console.WriteLine("Looking for " + ID);
             foreach (SaveMeta a in list) {
+                //Console.WriteLine("Compare " + a.directory);
                 if (a.directory.EndsWith(ID)) {
                     return a;
                 }
@@ -177,7 +179,7 @@ namespace PSPSync
 
         private void SD1toSD2_Click(object sender, RoutedEventArgs e)
         {
-            if (sd1offline || sd2offline || IsOnTheSameDevice()) {
+            if (sd1offline || sd2offline || IsOnTheSameDevice() || StorageDevice1.SelectedIndex == -1 || SD1s.SelectedIndex == -1) {
                 return;
             }
             IStorageDevice sd = storageDevices[StorageDevice1.SelectedIndex];
@@ -188,7 +190,7 @@ namespace PSPSync
 
         private void SD2toSD1_Click(object sender, RoutedEventArgs e)
         {
-            if (sd1offline || sd2offline || IsOnTheSameDevice())
+            if (sd1offline || sd2offline || IsOnTheSameDevice() || StorageDevice2.SelectedIndex == -1 || SD2s.SelectedIndex == -1)
             {
                 return;
             }
@@ -198,9 +200,13 @@ namespace PSPSync
             CopySave(currentmeta, GetMetaFromID(sd1Saves, GetGameID(currentmeta.directory)), files, storageDevices[StorageDevice1.SelectedIndex]);
         }
 
+        public void SetMgrEnabled(bool enabled) {
+            SD1s.IsEnabled = enabled;
+            SD2s.IsEnabled = enabled;
+        }
+
         public void CopySave(SaveMeta srcMeta, SaveMeta otherMeta, NamedStream[] files, IStorageDevice dest) {
-            SD1s.IsEnabled = false;
-            SD2s.IsEnabled = false;
+            SetMgrEnabled(false);
             string id = GetGameID(srcMeta.directory);
             Console.WriteLine(dest.HasSave(id) + " " + id);
             if (dest.HasSave(id))
@@ -226,8 +232,7 @@ namespace PSPSync
                     },
                     delegate
                     {
-                        SD1s.IsEnabled = true;
-                        SD2s.IsEnabled = true;
+                        SetMgrEnabled(true);
                         UpdateStorageDeviceItems();
                     });
                 a.Show();
@@ -258,8 +263,7 @@ namespace PSPSync
                 {
                     b.stream.Dispose();
                 }
-                SD1s.IsEnabled = true;
-                SD2s.IsEnabled = true;
+                SetMgrEnabled(true);
                 UpdateStorageDeviceItems();
             }
         }
@@ -272,7 +276,7 @@ namespace PSPSync
             {
                 if (directory[fnw] == '/' || directory[fnw] == '\\')
                 {
-                    return directory.Substring(fnw);
+                    return directory.Substring(fnw + 1);
                 }
             }
             throw new FormatException();
@@ -317,6 +321,12 @@ namespace PSPSync
                 MessageBox.Show("Save file deleted");
                 UpdateStorageDeviceItems();
             }
+        }
+
+        private void RescanDrives_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateStorageDeviceList();
+            UpdateStorageDeviceItems();
         }
 
         private void StorageDevice1_SelectionChanged(object sender, SelectionChangedEventArgs e)
