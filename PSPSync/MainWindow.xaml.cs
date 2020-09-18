@@ -27,6 +27,7 @@ namespace PSPSync
         public List<IStorageDevice> storageDevices = new List<IStorageDevice>();
         List<SaveMeta> sd1Saves, sd2Saves;
         bool sd1offline, sd2offline;
+        private bool mgrEnabled = true;
 
         public MainWindow()
         {
@@ -35,14 +36,34 @@ namespace PSPSync
             UpdateStorageDeviceList();
             UpdateStorageDeviceItems();
             EventHandlers();
+            KeyboardInput();
             this.SizeChanged += delegate
             {
-                double epic = (this.Width - 57) / 2d;
+                double epic = (this.Width - 51) / 2d;
                 SD1s.Width = epic - SD1s.Margin.Left;
                 SD2s.Width = epic - SD2s.Margin.Right;
 
-                SD1toSD2.Margin.Left = SD1s.Margin.Left;
+                Thickness thiccness = SD1toSD2.Margin;
+                thiccness.Left = epic;
+                SD1toSD2.Margin = thiccness;
+
+                thiccness.Top = SD2toSD1.Margin.Top;
+                SD2toSD1.Margin = thiccness;
+
+                thiccness.Top = Sync.Margin.Top;
+                Sync.Margin = thiccness;
             };
+        }
+
+        public void KeyboardInput() {
+            foreach (Control a in new Control[] { SD1s, SD2s, StorageDevice1, StorageDevice2, SD1toSD2, SD2toSD1, SD1Delete, SD2Delete})
+            {
+                a.PreviewKeyDown += (object sender, KeyEventArgs e) =>
+                {
+                    Console.WriteLine("Keyboard event: " + mgrEnabled);
+                    e.Handled = !mgrEnabled;
+                };
+            }
         }
 
         public void EventHandlers() {
@@ -210,8 +231,10 @@ namespace PSPSync
         }
 
         public void SetMgrEnabled(bool enabled) {
-            SD1s.IsEnabled = enabled;
-            SD2s.IsEnabled = enabled;
+            AllDisabled.Visibility = (enabled ? Visibility.Hidden : Visibility.Visible);
+            mgrEnabled = enabled;
+            //SD1s.IsEnabled = enabled;
+            //SD2s.IsEnabled = enabled;
         }
 
         public void CopySave(SaveMeta srcMeta, SaveMeta otherMeta, NamedStream[] files, IStorageDevice dest) {

@@ -15,7 +15,7 @@
         <Label x:Name="srcDesc" Content="already in {}" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center" Foreground="White"/>
         <Label Content="being copied" HorizontalAlignment="Left" Margin="394,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center" Foreground="White"/>
         <Button x:Name="KeepSRC" Content="Keep" HorizontalAlignment="Left" Margin="162,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepSRC_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
-        <Button x:Name="KeepDST" Content="Keep" HorizontalAlignment="Left" Margin="553,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepDST_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
+        <Button x:Name="KeepDST" Content="Overwrite" HorizontalAlignment="Left" Margin="553,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepDST_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="164" Margin="398,69,0,0" VerticalAlignment="Top" Width="1" RenderTransformOrigin="0.5,0.5">
             <Rectangle.RenderTransform>
                 <TransformGroup>
