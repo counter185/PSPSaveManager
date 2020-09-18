@@ -13,6 +13,7 @@ Tested supported devices:
 - PS Vita (vitashell USB)
 - Nintendo Switch over MTP
 - Android over MTP
+
 In addition to those you can add your own directories
 
 Devices not currently supported:
