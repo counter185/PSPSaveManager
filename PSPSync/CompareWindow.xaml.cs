@@ -39,15 +39,19 @@ namespace PSPSync
 
         private void KeepSRC_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();   //really
+            this.Close();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
             final.Invoke();
+            base.OnClosed(e);
         }
 
         private void KeepDST_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
             ifDst.Invoke();
-            final.Invoke();
+            this.Close();
         }
     }
 }

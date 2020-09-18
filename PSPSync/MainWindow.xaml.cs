@@ -35,22 +35,35 @@ namespace PSPSync
             UpdateStorageDeviceItems();
             EventHandlers();
             KeyboardInput();
+            
             this.SizeChanged += delegate
             {
-                double epic = (this.Width - 51) / 2d;
-                SD1s.Width = epic - SD1s.Margin.Left;
-                SD2s.Width = epic - SD2s.Margin.Right;
-
-                Thickness thiccness = SD1toSD2.Margin;
-                thiccness.Left = epic;
-                SD1toSD2.Margin = thiccness;
-
-                thiccness.Top = SD2toSD1.Margin.Top;
-                SD2toSD1.Margin = thiccness;
-
-                thiccness.Top = Sync.Margin.Top;
-                Sync.Margin = thiccness;
+                UpdateSizes();
             };
+        }
+
+        public void UpdateSizes() {
+            double epic = (this.Width - 51) / 2d;
+            SD1s.Width = epic - SD1s.Margin.Left;
+            StorageDevice1.Width = epic - SD1s.Margin.Left;
+            SD2s.Width = epic - SD2s.Margin.Right;
+            StorageDevice2.Width = epic - SD2s.Margin.Right;
+
+            Thickness thiccness = SD1toSD2.Margin;
+            thiccness.Left = epic;
+            SD1toSD2.Margin = thiccness;
+
+            thiccness.Top = SD2toSD1.Margin.Top;
+            SD2toSD1.Margin = thiccness;
+
+            thiccness.Top = Sync.Margin.Top;
+            Sync.Margin = thiccness;
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            UpdateSizes();
+            base.OnStateChanged(e);
         }
 
         public void KeyboardInput() {
@@ -219,6 +232,7 @@ namespace PSPSync
             if (CannotCopy()) {
                 return;
             }
+            TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Indeterminate;
             IStorageDevice sd = storageDevices[StorageDevice1.SelectedIndex];
             SaveMeta currentmeta = sd1Saves[SD1s.SelectedIndex];
             NamedStream[] files = sd.ReadSave(currentmeta.directory);
@@ -237,6 +251,7 @@ namespace PSPSync
             {
                 return;
             }
+            TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Indeterminate;
             IStorageDevice sd = storageDevices[StorageDevice2.SelectedIndex];
             SaveMeta currentmeta = sd2Saves[SD2s.SelectedIndex];
             NamedStream[] files = sd.ReadSave(currentmeta.directory);
@@ -277,6 +292,7 @@ namespace PSPSync
                     },
                     delegate
                     {
+                        TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.None;
                         SetMgrEnabled(true);
                         UpdateStorageDeviceItems();
                     });
@@ -308,6 +324,7 @@ namespace PSPSync
                 {
                     b.stream.Dispose();
                 }
+                TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.None;
                 SetMgrEnabled(true);
                 UpdateStorageDeviceItems();
             }
