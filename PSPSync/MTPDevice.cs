@@ -16,15 +16,19 @@ namespace PSPSync
             device.Connect();
             try
             {
-                foreach (string a in device.GetDirectories("/"))
+                Console.WriteLine(device.FriendlyName);
+                if (!device.FriendlyName.EndsWith(":\\"))   //that means it's already mounted as a drive. don't trust it.
                 {
-                    if (device.DirectoryExists(a + "/PSP/SAVEDATA"))
+                    foreach (string a in device.GetDirectories("/"))
                     {
-                        saveDirs.Add(new MTPSaveDir(this, a + "/PSP/SAVEDATA", $"[MTP:{device.FriendlyName}{a}] Android (or PSP via MTP)"));
-                    }
-                    if (device.DirectoryExists(a + "/switch/ppsspp/config/ppsspp/PSP/SAVEDATA"))
-                    {
-                        saveDirs.Add(new MTPSaveDir(this, a + "/switch/ppsspp/config/ppsspp/PSP/SAVEDATA", $"[MTP:{device.FriendlyName}{a}] Nintendo Switch"));
+                        if (device.DirectoryExists(a + "/PSP/SAVEDATA"))
+                        {
+                            saveDirs.Add(new MTPSaveDir(this, a + "/PSP/SAVEDATA", $"[MTP:{device.FriendlyName}{a}] Android (or PSP via MTP)"));
+                        }
+                        if (device.DirectoryExists(a + "/switch/ppsspp/config/ppsspp/PSP/SAVEDATA"))
+                        {
+                            saveDirs.Add(new MTPSaveDir(this, a + "/switch/ppsspp/config/ppsspp/PSP/SAVEDATA", $"[MTP:{device.FriendlyName}{a}] Nintendo Switch"));
+                        }
                     }
                 }
                 //device.Disconnect();
