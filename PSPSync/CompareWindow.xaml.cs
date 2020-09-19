@@ -19,8 +19,8 @@ namespace PSPSync
     /// </summary>
     public partial class CompareWindow : Window
     {
-        Action ifDst;
-        Action final;
+        readonly Action ifDst;
+        readonly Action final;
 
         public CompareWindow()
         {

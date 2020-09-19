@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PSPSync"
         mc:Ignorable="d"
-        Title="Config" Height="450" Width="800">
+        Title="Config" Height="413" Width="800">
     <Grid Background="{StaticResource mainColor}">
-        <ListBox x:Name="PathList" HorizontalAlignment="Left" Height="364" Margin="10,10,0,0" VerticalAlignment="Top" Width="425" Background="{StaticResource subColor}" BorderBrush="Transparent"/>
-        <TextBox x:Name="PathName" HorizontalAlignment="Left" Height="23" Margin="603,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141" Background="{StaticResource subColor}" Foreground="White"/>
-        <TextBox x:Name="PathPath" HorizontalAlignment="Left" Height="23" Margin="527,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" Background="{StaticResource subColor}" Foreground="White"/>
-        <Label Content="Name" HorizontalAlignment="Left" Margin="440,87,0,0" VerticalAlignment="Top" Height="29" Foreground="White"/>
-        <Label Content="Path" HorizontalAlignment="Left" Margin="440,116,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <Button x:Name="AddPath" Content="Add path" HorizontalAlignment="Left" Margin="669,147,0,0" VerticalAlignment="Top" Width="75" Click="AddPath_Click" Background="{StaticResource subColor}" BorderBrush="Transparent" Foreground="White"/>
+        <ListBox x:Name="PathList" Margin="10,10,357,8" Background="{StaticResource subColor}" BorderBrush="Transparent" Foreground="White"/>
+        <TextBox x:Name="PathName" Height="23" Margin="0,91,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{StaticResource subColor}" Foreground="White" HorizontalAlignment="Right" Width="179"/>
+        <TextBox x:Name="PathPath" Height="23" Margin="0,119,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{StaticResource subColor}" Foreground="White" HorizontalAlignment="Right" Width="255"/>
+        <Label Content="Name" Margin="0,87,310,0" VerticalAlignment="Top" Height="29" Foreground="White" HorizontalAlignment="Right" Width="42"/>
+        <Label Content="Path" Margin="0,116,319,0" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Right" Width="33"/>
+        <Button x:Name="AddPath" Content="Add path" Margin="0,147,10,0" VerticalAlignment="Top" Click="AddPath_Click" Background="{StaticResource subColor}" BorderBrush="Transparent" Foreground="White" HorizontalAlignment="Right" Width="75"/>
+        <Label Content="FTP paths must be in the following format:    ftp://[IP]/[path]" Margin="0,203,10,0" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Right" Width="342"/>
+        <Button x:Name="DelSelected" Content="Delete selected" HorizontalAlignment="Right" Margin="0,0,258,8" Width="94" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent" Click="DelSelected_Click" Height="20" VerticalAlignment="Bottom"/>
 
     </Grid>
 </Window>

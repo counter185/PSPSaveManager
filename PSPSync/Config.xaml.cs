@@ -38,9 +38,22 @@ namespace PSPSync
             if (PathName.Text == String.Empty || PathPath.Text == String.Empty) {
                 return;
             }
-            GlobalConfig.paths.Add(new SavePath(PathName.Text, PathPath.Text));
+            string path = PathPath.Text;
+            path.Replace("\\", "/");
+            if (!path.EndsWith("/")) {
+                path += "/";
+            }
+            GlobalConfig.paths.Add(new SavePath(PathName.Text, path));
             GlobalConfig.SaveConfig();
             LoadPaths();
+        }
+
+        private void DelSelected_Click(object sender, RoutedEventArgs e)
+        {
+            if (PathList.SelectedIndex != -1) {
+                GlobalConfig.paths.RemoveAt(PathList.SelectedIndex);
+                LoadPaths();
+            }
         }
     }
 }

@@ -26,6 +26,7 @@ namespace PSPSync
         List<SaveMeta> sd1Saves, sd2Saves;
         bool sd1offline, sd2offline;
         private bool mgrEnabled = true;
+        public bool appInit = false;
 
         public MainWindow()
         {
@@ -40,6 +41,7 @@ namespace PSPSync
             {
                 UpdateSizes();
             };
+            appInit = true;
         }
 
         public void UpdateSizes() {
@@ -140,10 +142,6 @@ namespace PSPSync
                     sd1offline = false;
                     foreach (SaveMeta a in sd1Saves)
                     {
-                        if (a == null)
-                        {
-                            MessageBox.Show("WHY");
-                        }
                         SD1s.Items.Add(new SaveListItem(a));
                     }
                 }
@@ -172,10 +170,16 @@ namespace PSPSync
 
         public void ScanDrives() {
             storageDevices.Clear();
-            int i = 1;
             foreach (SavePath a in GlobalConfig.paths) {
-                storageDevices.Add(new PSPSaveDir(a.path, a.name));
-                i++;
+                if (a.path.StartsWith("ftp://"))
+                {
+                    int indexofslash = a.path.IndexOf("/", 8);
+                    storageDevices.Add(new FTPSaveDir(a.path.Substring(indexofslash), a.path.Substring(0, indexofslash), a.name));
+                }
+                else
+                {
+                    storageDevices.Add(new PSPSaveDir(a.path, a.name));
+                }
             }
             string cmaPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/Documents/PS Vita/PSAVEDATA/";
             if (Directory.Exists(cmaPath)) {
@@ -229,7 +233,7 @@ namespace PSPSync
 
         private void SD1toSD2_Click(object sender, RoutedEventArgs e)
         {
-            if (CannotCopy()) {
+            if (CannotCopy() || SD1s.SelectedIndex == -1) {
                 return;
             }
             TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Indeterminate;
@@ -241,13 +245,13 @@ namespace PSPSync
 
         public bool CannotCopy() {
             return sd1offline || sd2offline || IsOnTheSameDevice() ||
-                StorageDevice2.SelectedIndex == -1 || SD2s.SelectedIndex == -1 ||
-                StorageDevice1.SelectedIndex == -1 || SD1s.SelectedIndex == -1;
+                StorageDevice2.SelectedIndex == -1 ||
+                StorageDevice1.SelectedIndex == -1;
         }
 
         private void SD2toSD1_Click(object sender, RoutedEventArgs e)
         {
-            if (CannotCopy())
+            if (CannotCopy() || SD2s.SelectedIndex == -1)
             {
                 return;
             }
@@ -393,13 +397,13 @@ namespace PSPSync
 
         private void StorageDevice1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (StorageDevice1.SelectedIndex != -1)
+            if (StorageDevice1.SelectedIndex != -1 && appInit)
                 UpdateStorageDeviceItems();
         }
 
         private void StorageDevice2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (StorageDevice2.SelectedIndex != -1)
+            if (StorageDevice2.SelectedIndex != -1 && appInit)
                 UpdateStorageDeviceItems();
         }
     }

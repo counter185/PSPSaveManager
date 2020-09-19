@@ -66,6 +66,8 @@
     <Compile Include="Config.xaml.cs">
       <DependentUpon>Config.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FTPClient.cs" />
+    <Compile Include="FTPSaveDir.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="MTPDevice.cs" />
     <Compile Include="MTPSaveDir.cs" />

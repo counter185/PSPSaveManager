@@ -15,8 +15,8 @@ namespace PSPSync
 {
     public class PSPSaveDir : IStorageDevice
     {
-        string mainDir;
-        string devName;
+        readonly string mainDir;
+        readonly string devName;
 
         public bool IsConnected() {
             return Directory.Exists(mainDir);

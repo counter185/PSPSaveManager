@@ -1,57 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace PSPSync
 {
-    public class MTPSaveDir : IStorageDevice
+    public class FTPSaveDir : IStorageDevice
     {
-        public string dir;
-        public MTPDevice parent;
-        public string name;
+        public FtpClient client;
+        public string ip;
+        public string mainDir;
+        public string thisName;
 
-        public MTPSaveDir(MTPDevice pnt, string dr2, string nm2) {
-            parent = pnt;
-            dir = dr2;
-            name = nm2;
+        public FTPSaveDir(string mainDir2, string ip2, string name) {
+            mainDir = mainDir2;
+            ip = ip2;
+            client = new FtpClient(ip, "anonymous", "pspsavemanager@github.com");
+            thisName = name;
         }
 
         public void DeleteSave(string name)
         {
-            foreach (string a in parent.device.GetFiles(dir + "/" + name)) {
-                //MessageBox.Show("am bouta delet " + a);
-                parent.device.DeleteFile(a);
+            string[] files = client.DirectoryListSimple(mainDir + "/" + name);
+            for (int x = 0; x < files.Length - 1; x++) {
+                string a = files[x];
+                client.Delete(mainDir + "/" + name + "/" + a);
             }
+            client.DeleteDir(mainDir + "/" + name);
         }
 
         public string GetDeviceName()
         {
-            return name;
+            return $"[{ip}] {thisName}";
         }
 
         public bool HasSave(string name)
         {
-            return parent.device.DirectoryExists(dir + "/" + name);
+            return client.DirectoryExists(mainDir + "/" + name);
         }
 
         public bool IsConnected()
         {
-            return parent.device.IsConnected;
+            return client.ServerAvailable();
         }
 
         public NamedStream[] ReadSave(string directory)
         {
-            string[] files = parent.device.GetFiles(directory);
+            string[] files = client.DirectoryListSimple(directory);
             NamedStream[] ret = new NamedStream[files.Length];
             for (int x = 0; x != files.Length; x++)
             {
-                string filename = files[x];
+                string filename = mainDir + "/" + files[x];
                 for (int fnw = filename.Length - 1; fnw > 0; fnw--)
                 {
                     if (filename[fnw] == '/' || filename[fnw] == '\\')
@@ -60,8 +61,7 @@ namespace PSPSync
                         break;
                     }
                 }
-                MemoryStream file = new MemoryStream();
-                parent.device.DownloadFile(files[x], file);
+                MemoryStream file = client.Download(files[x]);
                 file.Position = 0;
                 ret[x] = new NamedStream(file, filename);
             }
@@ -70,15 +70,16 @@ namespace PSPSync
 
         public List<SaveMeta> ScanSaves()
         {
-            if (!this.IsConnected() || !parent.device.DirectoryExists(dir))
+            if (!IsConnected() || !client.DirectoryExists(mainDir))
             {
                 return null;
             }
             List<SaveMeta> saves = new List<SaveMeta>();
-            string[] ss = parent.device.GetDirectories(dir);
-            foreach (string a in ss)
+            string[] ss = client.DirectoryListSimple(mainDir);
+            foreach (string dr2 in ss)
             {
-                if (!parent.device.FileExists(a + "/PARAM.SFO"))
+                string a = mainDir + dr2;
+                if (!client.FileExists(a + "/PARAM.SFO") || !client.FileExists(a + "/ICON0.PNG"))
                 {
                     continue;
                 }
@@ -86,8 +87,7 @@ namespace PSPSync
                 string info;
                 string info2;
                 byte[] reader = new byte[128];
-                MemoryStream b = new MemoryStream();
-                parent.device.DownloadFile(a + "/PARAM.SFO", b);
+                MemoryStream b = client.Download(a + "/PARAM.SFO");
                 b.Position = 0;
                 b.Seek(0x110, SeekOrigin.Begin);
                 b.Read(reader, 0, 128);
@@ -100,36 +100,25 @@ namespace PSPSync
                 title = Encoding.UTF8.GetString(reader);
                 b.Close();
 
-                MemoryStream imageStream = new MemoryStream();
-                parent.device.DownloadFile(a + "/ICON0.PNG", imageStream);
+                MemoryStream imageStream = client.Download(a + "/ICON0.PNG");
+                Console.WriteLine(a);
                 imageStream.Position = 0;
 
-                saves.Add(new SaveMeta(title, info, info2, a, BitmapFromStream(imageStream), parent.device.GetFileInfo(a + "/PARAM.SFO").LastWriteTime.Value));
+                saves.Add(new SaveMeta(title, info, info2, a, MTPSaveDir.BitmapFromStream(imageStream), new System.DateTime(0)));
             }
             return saves;
         }
 
-        public static ImageSource BitmapFromStream(Stream src)
-        {
-
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.StreamSource = src;
-            bitmap.EndInit();
-            return bitmap;
-        }
-
         public void WriteSave(string directoryName, NamedStream[] files)
         {
-            string dr = dir + "/" + directoryName;
-            if (!parent.device.DirectoryExists(dr))
+            string dr = mainDir + "/" + directoryName;
+            if (!client.DirectoryExists(dr))
             {
-                parent.device.CreateDirectory(dr);
+                client.CreateDirectory(dr);
             }
             foreach (NamedStream stm in files)
             {
-                parent.device.UploadFile(stm.stream, dr + "/" + stm.name);
+                client.Upload(dr + "/" + stm.name, stm.stream);
             }
             Console.WriteLine("done holy shit");
         }
