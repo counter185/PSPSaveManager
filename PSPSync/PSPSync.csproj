@@ -67,10 +67,10 @@
       <DependentUpon>Config.xaml</DependentUpon>
     </Compile>
     <Compile Include="FTPClient.cs" />
-    <Compile Include="FTPSaveDir.cs" />
+    <Compile Include="SDs\FTPSaveDir.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="MTPDevice.cs" />
-    <Compile Include="MTPSaveDir.cs" />
+    <Compile Include="SDs\MTPSaveDir.cs" />
     <Compile Include="SaveListItem.xaml.cs">
       <DependentUpon>SaveListItem.xaml</DependentUpon>
     </Compile>
@@ -94,7 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IStorageDevice.cs" />
+    <Compile Include="SDs\IStorageDevice.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -105,7 +105,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PSPSaveDir.cs" />
+    <Compile Include="SDs\PSPSaveDir.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
