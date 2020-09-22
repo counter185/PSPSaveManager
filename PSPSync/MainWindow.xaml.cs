@@ -233,7 +233,7 @@ namespace PSPSync
 
         private void SD1toSD2_Click(object sender, RoutedEventArgs e)
         {
-            if (CannotCopy() || SD1s.SelectedIndex == -1) {
+            if (CannotCopy(SD1s)) {
                 return;
             }
             TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Indeterminate;
@@ -243,15 +243,29 @@ namespace PSPSync
             CopySave(currentmeta, GetMetaFromID(sd2Saves, GetGameID(currentmeta.directory)), files, storageDevices[StorageDevice2.SelectedIndex]);
         }
 
-        public bool CannotCopy() {
-            return sd1offline || sd2offline || IsOnTheSameDevice() ||
-                StorageDevice2.SelectedIndex == -1 ||
-                StorageDevice1.SelectedIndex == -1;
+        public bool CannotCopy(ListBox savelist) {
+            if (sd1offline || sd2offline) {
+                MessageBox.Show("Device offline");
+                return true;
+            }
+            if (IsOnTheSameDevice()) {
+                MessageBox.Show("Cannot copy to the same device");
+                return true;
+            }
+            if (StorageDevice2.SelectedIndex == -1 || StorageDevice1.SelectedIndex == -1) {
+                MessageBox.Show("Select a device from the drop down menu");
+                return true;
+            }
+            if (savelist.SelectedIndex == -1) {
+                MessageBox.Show("Select a save to copy");
+                return true;
+            }
+            return false;
         }
 
         private void SD2toSD1_Click(object sender, RoutedEventArgs e)
         {
-            if (CannotCopy() || SD2s.SelectedIndex == -1)
+            if (CannotCopy(SD2s))
             {
                 return;
             }

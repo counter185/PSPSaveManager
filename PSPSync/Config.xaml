@@ -9,12 +9,13 @@
     <Grid Background="{StaticResource mainColor}">
         <ListBox x:Name="PathList" Margin="10,10,357,8" Background="{StaticResource subColor}" BorderBrush="Transparent" Foreground="White"/>
         <TextBox x:Name="PathName" Height="23" Margin="0,91,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{StaticResource subColor}" Foreground="White" HorizontalAlignment="Right" Width="179"/>
-        <TextBox x:Name="PathPath" Height="23" Margin="0,119,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{StaticResource subColor}" Foreground="White" HorizontalAlignment="Right" Width="255"/>
+        <TextBox x:Name="PathPath" Height="23" Margin="0,119,40,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{StaticResource subColor}" Foreground="White" HorizontalAlignment="Right" Width="225"/>
         <Label Content="Name" Margin="0,87,310,0" VerticalAlignment="Top" Height="29" Foreground="White" HorizontalAlignment="Right" Width="42"/>
         <Label Content="Path" Margin="0,116,319,0" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Right" Width="33"/>
         <Button x:Name="AddPath" Content="Add path" Margin="0,147,10,0" VerticalAlignment="Top" Click="AddPath_Click" Background="{StaticResource subColor}" BorderBrush="Transparent" Foreground="White" HorizontalAlignment="Right" Width="75"/>
         <Label Content="FTP paths must be in the following format:    ftp://[IP]/[path]" Margin="0,203,10,0" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Right" Width="342"/>
         <Button x:Name="DelSelected" Content="Delete selected" HorizontalAlignment="Right" Margin="0,0,258,8" Width="94" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent" Click="DelSelected_Click" Height="20" VerticalAlignment="Bottom"/>
+        <Button x:Name="ThreeDot" Content="..." Margin="0,119,10,0" VerticalAlignment="Top" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent" Height="23" Click="ThreeDot_Click" HorizontalAlignment="Right" Width="27"/>
 
     </Grid>
 </Window>
