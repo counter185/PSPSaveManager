@@ -366,6 +366,9 @@ namespace PSPSync
 
         private void SD1Delete_Click(object sender, RoutedEventArgs e)
         {
+            if (SD1s.SelectedIndex == -1) {
+                return;
+            }
             SaveMeta srcMeta = sd1Saves[SD1s.SelectedIndex];
             IStorageDevice sd = storageDevices[StorageDevice1.SelectedIndex];
             MessageBoxResult a = MessageBox.Show($"Delete {GetGameID(srcMeta.directory)} save file from {sd.GetDeviceName()}?", "Warning", MessageBoxButton.YesNo);
@@ -378,6 +381,10 @@ namespace PSPSync
 
         private void SD2Delete_Click(object sender, RoutedEventArgs e)
         {
+            if (SD2s.SelectedIndex == -1)
+            {
+                return;
+            }
             SaveMeta srcMeta = sd2Saves[SD2s.SelectedIndex];
             IStorageDevice sd = storageDevices[StorageDevice2.SelectedIndex];
             MessageBoxResult a = MessageBox.Show($"Delete {GetGameID(srcMeta.directory)} save file from {sd.GetDeviceName()}?", "Warning", MessageBoxButton.YesNo);
