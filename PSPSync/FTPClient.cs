@@ -331,7 +331,7 @@ namespace PSPSync
             try
             {
                 /* Create an FTP Request */
-                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/" + directory);
+                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + directory);
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
                 /* When in doubt, use these options */
@@ -365,24 +365,34 @@ namespace PSPSync
                     }
                     return directoryList; 
                 }
-                catch (Exception ex) { throw ex; /*Console.WriteLine(ex.ToString());*/ }
+                catch (WebException ex) { /*Console.WriteLine(ex.ToString());*/
+                    if (ex.Message.Contains("(550)")) { //this is the only way to check the error code i shit you not
+                        return new string[0];
+                    }
+                    throw ex;
+                }
+
             }
-            catch (WebException ex) { Console.WriteLine(directory); throw ex;/*Console.WriteLine(ex.ToString());*/ }
+            catch (WebException ex) { Console.WriteLine(directory);/*Console.WriteLine(ex.ToString());*/ }
             /* Return an Empty string Array if an Exception Occurs */
-            //return new string[] { "" };
+            return new string[0];
         }
 
         public bool ServerAvailable() {
-            ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host);
+            Console.WriteLine("Connecting to host " + host + "/");
+            
+            ftpRequest = (FtpWebRequest)FtpWebRequest.Create(host + "/");
             ftpRequest.Credentials = new NetworkCredential(user, pass);
+            ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
             try
             {
                 Stream a = ftpRequest.GetResponse().GetResponseStream();
                 a.Close();
                 return true;
             }
-            catch (WebException)
+            catch (WebException e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
 

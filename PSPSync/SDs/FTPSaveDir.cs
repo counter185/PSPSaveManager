@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows.Media.Animation;
 
 namespace PSPSync
 {
     public class FTPSaveDir : IStorageDevice
     {
         public FtpClient client;
-        public string ip;
+        public readonly string ip;
         public string mainDir;
         public string thisName;
 

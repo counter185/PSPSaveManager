@@ -73,7 +73,6 @@ namespace PSPSync
             {
                 a.PreviewKeyDown += (object sender, KeyEventArgs e) =>
                 {
-                    Console.WriteLine("Keyboard event: " + mgrEnabled);
                     e.Handled = !mgrEnabled;
                 };
             }
@@ -93,7 +92,6 @@ namespace PSPSync
         }
 
         public void DeviceInsertedEvent(object sender, EventArrivedEventArgs e) {
-            Console.WriteLine("Device inserted");
             Dispatcher.Invoke(delegate
             {
                 UpdateStorageDeviceList();
@@ -102,7 +100,6 @@ namespace PSPSync
         }
         public void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
         {
-            Console.WriteLine("Device removed");
             Dispatcher.Invoke(delegate
             {
                 UpdateStorageDeviceList();
@@ -184,7 +181,6 @@ namespace PSPSync
             string cmaPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/Documents/PS Vita/PSAVEDATA/";
             if (Directory.Exists(cmaPath)) {
                 foreach (string a in Directory.GetDirectories(cmaPath)) {
-                    Console.WriteLine(a);
                     storageDevices.Add(new PSPSaveDir(a, $"PS Vita Content Manager [{GetGameID(a)}]"));
                 }
             }
