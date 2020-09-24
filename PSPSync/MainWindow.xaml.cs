@@ -285,32 +285,47 @@ namespace PSPSync
             Console.WriteLine(dest.HasSave(id) + " " + id);
             if (dest.HasSave(id))
             {
-                CompareWindow a = new CompareWindow(otherMeta, srcMeta, dest.GetDeviceName(),
-                    delegate
+                if (otherMeta == null)
+                {
+                    MessageBoxResult a = MessageBox.Show("Save data in destination directory is corrupted (no PARAM.SFO file). Overwrite?", "", MessageBoxButton.YesNo);
+                    if (a == MessageBoxResult.Yes)
                     {
-                        try
+                        dest.DeleteSave(GetGameID(srcMeta.directory));
+                        dest.WriteSave(GetGameID(srcMeta.directory), files);
+                        MessageBox.Show("Copied");
+                        
+                    }
+                    SetMgrEnabled(true);
+                }
+                else
+                {
+                    CompareWindow a = new CompareWindow(otherMeta, srcMeta, dest.GetDeviceName(),
+                        delegate
                         {
-                            dest.DeleteSave(GetGameID(srcMeta.directory));
-                            dest.WriteSave(GetGameID(srcMeta.directory), files);
-                            MessageBox.Show("Copied");
-                        }
-                        catch (IOException)
-                        {
-                            MessageBox.Show("Copy operation failed");
-                        }
+                            try
+                            {
+                                dest.DeleteSave(GetGameID(srcMeta.directory));
+                                dest.WriteSave(GetGameID(srcMeta.directory), files);
+                                MessageBox.Show("Copied");
+                            }
+                            catch (IOException)
+                            {
+                                MessageBox.Show("Copy operation failed");
+                            }
 
-                        foreach (NamedStream b in files)
+                            foreach (NamedStream b in files)
+                            {
+                                b.stream.Dispose();
+                            }
+                        },
+                        delegate
                         {
-                            b.stream.Dispose();
-                        }
-                    },
-                    delegate
-                    {
-                        TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.None;
-                        SetMgrEnabled(true);
-                        UpdateStorageDeviceItems();
-                    });
-                a.Show();
+                            TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.None;
+                            SetMgrEnabled(true);
+                            UpdateStorageDeviceItems();
+                        });
+                    a.Show();
+                }
                 /*MessageBoxResult a = MessageBox.Show($"Destination already has a {GetGameID(srcMeta.directory)} save file. Overwrite?", "Warning", MessageBoxButton.YesNo);
                 if (a == MessageBoxResult.No)
                 {

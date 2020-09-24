@@ -373,7 +373,7 @@ namespace PSPSync
                 }
 
             }
-            catch (WebException ex) { Console.WriteLine(directory);/*Console.WriteLine(ex.ToString());*/ }
+            catch (WebException) { Console.WriteLine(directory);/*Console.WriteLine(ex.ToString());*/ }
             /* Return an Empty string Array if an Exception Occurs */
             return new string[0];
         }

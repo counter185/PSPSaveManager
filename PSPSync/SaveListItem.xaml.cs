@@ -30,11 +30,20 @@ namespace PSPSync
         }
 
         public void GiveMeta(SaveMeta a) {
-            this.GameName.Content = a.name;
-            this.GameInfo.Content = a.info;
-            this.GameInfo2.Content = a.info2;
-            this.GameDate.Content = a.timeModified.ToString();
-            this.GamePic.Source = a.thumbnail;
+            if (a != null)
+            {
+                this.GameName.Content = a.name;
+                this.GameInfo.Content = a.info;
+                this.GameInfo2.Content = a.info2;
+                this.GameDate.Content = a.timeModified.ToString();
+                this.GamePic.Source = a.thumbnail;
+            }
+            else {
+                this.GameName.Content = "Corrupted data (no PARAM.SFO)";
+                this.GameInfo.Content = "";
+                this.GameInfo2.Content = "";
+                this.GameDate.Content = "???";
+            }
         }
     }
 }
