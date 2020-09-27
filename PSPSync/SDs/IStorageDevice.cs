@@ -10,6 +10,9 @@ using System.Windows.Media.Imaging;
 
 namespace PSPSync
 {
+    public enum GeneralDeviceSpeed { 
+        Fast, Slow
+    }
     public class SaveMeta {
         public string name;
         public string info;
@@ -46,5 +49,6 @@ namespace PSPSync
         void DeleteSave(string name);
         NamedStream[] ReadSave(string directory);
         void WriteSave(string directoryName, NamedStream[] files);
+        GeneralDeviceSpeed GetDeviceSpeed();
     }
 }

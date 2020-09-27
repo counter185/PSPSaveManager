@@ -121,47 +121,59 @@ namespace PSPSync
             StorageDevice2.SelectedIndex = 0;
         }
 
-        public void UpdateStorageDeviceItems() {
-            SD1s.Items.Clear();
-            SD2s.Items.Clear();
+        public void UpdateStorageDeviceItems(int row = 0) {
+            
             if (StorageDevice1.SelectedIndex != -1)
             {
-                sd1Saves = storageDevices[StorageDevice1.SelectedIndex].ScanSaves();
-                if (sd1Saves == null)
+                if (storageDevices[StorageDevice1.SelectedIndex].GetDeviceSpeed() == GeneralDeviceSpeed.Fast || row != 2)
                 {
-                    SD1s.Items.Add("Offline... (Directory not found)");
-                    SD1s.IsEnabled = false;
-                    sd1offline = true;
-                }
-                else
-                {
-                    SD1s.IsEnabled = true;
-                    sd1offline = false;
-                    foreach (SaveMeta a in sd1Saves)
+                    SD1s.Items.Clear();
+                    sd1Saves = storageDevices[StorageDevice1.SelectedIndex].ScanSaves();
+                    if (sd1Saves == null)
                     {
-                        SD1s.Items.Add(new SaveListItem(a));
+                        SD1s.Items.Add("Offline... (Directory not found)");
+                        SD1s.IsEnabled = false;
+                        sd1offline = true;
+                    }
+                    else
+                    {
+                        SD1s.IsEnabled = true;
+                        sd1offline = false;
+                        foreach (SaveMeta a in sd1Saves)
+                        {
+                            SD1s.Items.Add(new SaveListItem(a));
+                        }
                     }
                 }
-
+            }
+            else {
+                SD1s.Items.Clear();
             }
             if (StorageDevice2.SelectedIndex != -1)
             {
-                sd2Saves = storageDevices[StorageDevice2.SelectedIndex].ScanSaves();
-                if (sd2Saves == null)
+                if (storageDevices[StorageDevice2.SelectedIndex].GetDeviceSpeed() == GeneralDeviceSpeed.Fast || row != 1)
                 {
-                    SD2s.Items.Add("Offline... (Directory not found)");
-                    SD2s.IsEnabled = false;
-                    sd2offline = true;
-                }
-                else
-                {
-                    SD2s.IsEnabled = true;
-                    sd2offline = false;
-                    foreach (SaveMeta a in sd2Saves)
+                    SD2s.Items.Clear();
+                    sd2Saves = storageDevices[StorageDevice2.SelectedIndex].ScanSaves();
+                    if (sd2Saves == null)
                     {
-                        SD2s.Items.Add(new SaveListItem(a));
+                        SD2s.Items.Add("Offline... (Directory not found)");
+                        SD2s.IsEnabled = false;
+                        sd2offline = true;
+                    }
+                    else
+                    {
+                        SD2s.IsEnabled = true;
+                        sd2offline = false;
+                        foreach (SaveMeta a in sd2Saves)
+                        {
+                            SD2s.Items.Add(new SaveListItem(a));
+                        }
                     }
                 }
+            }
+            else {
+                SD2s.Items.Clear();
             }
         }
 
@@ -236,7 +248,7 @@ namespace PSPSync
             IStorageDevice sd = storageDevices[StorageDevice1.SelectedIndex];
             SaveMeta currentmeta = sd1Saves[SD1s.SelectedIndex];
             NamedStream[] files = sd.ReadSave(currentmeta.directory);
-            CopySave(currentmeta, GetMetaFromID(sd2Saves, GetGameID(currentmeta.directory)), files, storageDevices[StorageDevice2.SelectedIndex]);
+            CopySave(currentmeta, GetMetaFromID(sd2Saves, GetGameID(currentmeta.directory)), files, storageDevices[StorageDevice2.SelectedIndex], 2);
         }
 
         public bool CannotCopy(ListBox savelist) {
@@ -269,7 +281,7 @@ namespace PSPSync
             IStorageDevice sd = storageDevices[StorageDevice2.SelectedIndex];
             SaveMeta currentmeta = sd2Saves[SD2s.SelectedIndex];
             NamedStream[] files = sd.ReadSave(currentmeta.directory);
-            CopySave(currentmeta, GetMetaFromID(sd1Saves, GetGameID(currentmeta.directory)), files, storageDevices[StorageDevice1.SelectedIndex]);
+            CopySave(currentmeta, GetMetaFromID(sd1Saves, GetGameID(currentmeta.directory)), files, storageDevices[StorageDevice1.SelectedIndex], 1);
         }
 
         public void SetMgrEnabled(bool enabled) {
@@ -279,7 +291,7 @@ namespace PSPSync
             //SD2s.IsEnabled = enabled;
         }
 
-        public void CopySave(SaveMeta srcMeta, SaveMeta otherMeta, NamedStream[] files, IStorageDevice dest) {
+        public void CopySave(SaveMeta srcMeta, SaveMeta otherMeta, NamedStream[] files, IStorageDevice dest, int updateDevice) {
             SetMgrEnabled(false);
             string id = GetGameID(srcMeta.directory);
             Console.WriteLine(dest.HasSave(id) + " " + id);
@@ -322,7 +334,7 @@ namespace PSPSync
                         {
                             TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.None;
                             SetMgrEnabled(true);
-                            UpdateStorageDeviceItems();
+                            UpdateStorageDeviceItems(updateDevice);
                         });
                     a.Show();
                 }
@@ -355,7 +367,7 @@ namespace PSPSync
                 }
                 TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.None;
                 SetMgrEnabled(true);
-                UpdateStorageDeviceItems();
+                UpdateStorageDeviceItems(updateDevice);
             }
         }
 

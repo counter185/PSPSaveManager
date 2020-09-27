@@ -123,5 +123,9 @@ namespace PSPSync
             }
             Console.WriteLine("done holy shit");
         }
+
+        public GeneralDeviceSpeed GetDeviceSpeed() {
+            return GeneralDeviceSpeed.Slow;
+        }
     }
 }
