@@ -101,10 +101,15 @@ namespace PSPSync
                 b.Close();
 
                 MemoryStream imageStream = new MemoryStream();
-                parent.device.DownloadFile(a + "/ICON0.PNG", imageStream);
+                ImageSource imsr = null;
+                if (parent.device.FileExists(a + "/ICON0.PNG"))
+                {
+                    parent.device.DownloadFile(a + "/ICON0.PNG", imageStream);
+                    imsr = BitmapFromStream(imageStream);
+                }
                 imageStream.Position = 0;
 
-                saves.Add(new SaveMeta(title, info, info2, a, BitmapFromStream(imageStream), parent.device.GetFileInfo(a + "/PARAM.SFO").LastWriteTime.Value));
+                saves.Add(new SaveMeta(title, info, info2, a, imsr, parent.device.GetFileInfo(a + "/PARAM.SFO").LastWriteTime.Value));
             }
             return saves;
         }
