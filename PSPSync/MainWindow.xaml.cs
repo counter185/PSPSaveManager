@@ -206,6 +206,9 @@ namespace PSPSync
                 if (Directory.Exists(a + "/PSP/")) {
                     storageDevices.Add(new PSPSaveDir(a + "/PSP/SAVEDATA/", $"[{a}] PSP Memory Stick"));
                 }
+                if (Directory.Exists(a + "/switch/ppsspp/config/ppsspp/PSP/")) {
+                    storageDevices.Add(new PSPSaveDir(a + "/switch/ppsspp/config/ppsspp/PSP/SAVEDATA/", $"[{a}] Switch"));
+                }
             }
 
             foreach (MediaDevice a in MTPDevice.ScanMTPs()) {
