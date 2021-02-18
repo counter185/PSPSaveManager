@@ -50,8 +50,8 @@ namespace PSPSync
         public NamedStream[] ReadSave(string directory)
         {
             string[] files = client.DirectoryListSimple(directory);
-            NamedStream[] ret = new NamedStream[files.Length];
-            for (int x = 0; x != files.Length; x++)
+            NamedStream[] ret = new NamedStream[files.Length-1];
+            for (int x = 0; x != files.Length-1; x++)
             {
                 string filename = mainDir + "/" + files[x];
                 for (int fnw = filename.Length - 1; fnw > 0; fnw--)
@@ -62,7 +62,8 @@ namespace PSPSync
                         break;
                     }
                 }
-                MemoryStream file = client.Download(files[x]);
+                MemoryStream file = client.Download(directory + "/" + files[x]);
+                Console.WriteLine(directory + "/" + files[x]);
                 file.Position = 0;
                 ret[x] = new NamedStream(file, filename);
             }

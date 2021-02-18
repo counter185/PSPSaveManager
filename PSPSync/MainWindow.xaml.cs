@@ -378,7 +378,7 @@ namespace PSPSync
             while (directory.EndsWith("/") || directory.EndsWith(@"\\")) {
                 directory = directory.Substring(0, directory.Length - 1);
             }
-            for (int fnw = directory.Length - 1; fnw != 0; fnw--)
+            for (int fnw = directory.Length - 1; fnw >= 0; fnw--)
             {
                 if (directory[fnw] == '/' || directory[fnw] == '\\')
                 {
