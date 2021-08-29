@@ -297,7 +297,6 @@ namespace PSPSync
         public void CopySave(SaveMeta srcMeta, SaveMeta otherMeta, NamedStream[] files, IStorageDevice dest, int updateDevice) {
             SetMgrEnabled(false);
             string id = GetGameID(srcMeta.directory);
-            Console.WriteLine(dest.HasSave(id) + " " + id);
             if (dest.HasSave(id))
             {
                 if (otherMeta == null)

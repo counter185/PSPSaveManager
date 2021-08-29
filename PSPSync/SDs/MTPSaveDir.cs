@@ -136,7 +136,6 @@ namespace PSPSync
             {
                 parent.device.UploadFile(stm.stream, dr + "/" + stm.name);
             }
-            Console.WriteLine("done holy shit");
         }
 
         public GeneralDeviceSpeed GetDeviceSpeed()

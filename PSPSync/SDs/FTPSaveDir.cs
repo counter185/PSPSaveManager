@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Media.Animation;
+using System.Windows.Media;
 
 namespace PSPSync
 {
@@ -63,7 +64,7 @@ namespace PSPSync
                     }
                 }
                 MemoryStream file = client.Download(directory + "/" + files[x]);
-                Console.WriteLine(directory + "/" + files[x]);
+                //Console.WriteLine(directory + "/" + files[x]);
                 file.Position = 0;
                 ret[x] = new NamedStream(file, filename);
             }
@@ -81,7 +82,7 @@ namespace PSPSync
             foreach (string dr2 in ss)
             {
                 string a = mainDir + dr2;
-                if (!client.FileExists(a + "/PARAM.SFO") || !client.FileExists(a + "/ICON0.PNG"))
+                if (!client.FileExists(a + "/PARAM.SFO"))
                 {
                     continue;
                 }
@@ -102,11 +103,16 @@ namespace PSPSync
                 title = Encoding.UTF8.GetString(reader);
                 b.Close();
 
-                MemoryStream imageStream = client.Download(a + "/ICON0.PNG");
-                Console.WriteLine(a);
-                imageStream.Position = 0;
 
-                saves.Add(new SaveMeta(title, info, info2, a, MTPSaveDir.BitmapFromStream(imageStream), new System.DateTime(0)));
+                ImageSource thumbnailImg = null;
+                if (client.FileExists(a + "/ICON0.PNG"))
+                {
+                    MemoryStream imageStream = client.Download(a + "/ICON0.PNG");
+                    imageStream.Position = 0;
+                    thumbnailImg = MTPSaveDir.BitmapFromStream(imageStream);
+                }
+
+                saves.Add(new SaveMeta(title, info, info2, a, thumbnailImg, new System.DateTime(0)));
             }
             return saves;
         }
@@ -122,7 +128,6 @@ namespace PSPSync
             {
                 client.Upload(dr + "/" + stm.name, stm.stream);
             }
-            Console.WriteLine("done holy shit");
         }
 
         public GeneralDeviceSpeed GetDeviceSpeed() {

@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Label x:Name="MissingIcon" Content="Missing ICON0.PNG" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Height="43" Width="126" Foreground="White"/>
         <Image x:Name="GamePic" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="136" Margin="0,13,0,0"/>
         <Label x:Name="GameName" Content="Game name" HorizontalAlignment="Left" Margin="141,0,0,0" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
         <Label x:Name="GameInfo" Content="info" HorizontalAlignment="Left" Margin="141,13,0,0" VerticalAlignment="Top" FontSize="11" Foreground="White"/>

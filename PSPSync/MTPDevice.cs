@@ -16,7 +16,7 @@ namespace PSPSync
             device.Connect();
             try
             {
-                Console.WriteLine(device.FriendlyName);
+                //Console.WriteLine("Connecting to " + device.FriendlyName);
                 if (!device.FriendlyName.EndsWith(":\\"))   //that means it's already mounted as a drive. don't trust it.
                 {
                     foreach (string a in device.GetDirectories("/"))

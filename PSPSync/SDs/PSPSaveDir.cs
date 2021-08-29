@@ -62,7 +62,7 @@ namespace PSPSync
                 b.Seek(0x12B0, SeekOrigin.Begin);
                 b.Read(reader, 0, 128);
                 title = Encoding.UTF8.GetString(reader);
-                saves.Add(new SaveMeta(title, info, info2, a, BitmapFromUri(new Uri(a + "/ICON0.PNG")), File.GetLastWriteTime(a + "/PARAM.SFO")));
+                saves.Add(new SaveMeta(title, info, info2, a, (File.Exists(a+"/ICON0.PNG") ? BitmapFromUri(new Uri(a + "/ICON0.PNG")) : null), File.GetLastWriteTime(a + "/PARAM.SFO")));
                 b.Close();
             }
             return saves;
@@ -119,7 +119,6 @@ namespace PSPSync
                 }
                 a.Close();
             }
-            Console.WriteLine("done holy shit");
         }
 
         public GeneralDeviceSpeed GetDeviceSpeed()
