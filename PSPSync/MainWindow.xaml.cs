@@ -108,7 +108,20 @@ namespace PSPSync
         }
 
         public void UpdateStorageDeviceList() {
+            
+
+            string sd1name = "", sd2name = "";
+
+
+            if (StorageDevice1.SelectedIndex != -1) {
+                sd1name = storageDevices[StorageDevice1.SelectedIndex].GetDeviceName();
+            }
+            if (StorageDevice2.SelectedIndex != -1) {
+                sd2name = storageDevices[StorageDevice2.SelectedIndex].GetDeviceName();
+            }
+
             ScanDrives();
+
             StorageDevice1.SelectedIndex = -1;
             StorageDevice2.SelectedIndex = -1;
             StorageDevice1.Items.Clear();
@@ -117,8 +130,42 @@ namespace PSPSync
                 StorageDevice1.Items.Add(a.GetDeviceName());
                 StorageDevice2.Items.Add(a.GetDeviceName());
             }
-            StorageDevice1.SelectedIndex = 0;
-            StorageDevice2.SelectedIndex = 0;
+
+            if (sd1name != "")
+            {
+                int index = 0;
+                for (int x = 0; x != storageDevices.Count; x++)
+                {
+                    if (storageDevices[x].GetDeviceName() == sd1name)
+                    {
+                        index = x;
+                        break;
+                    }
+                }
+                StorageDevice1.SelectedIndex = index;
+            }
+            else {
+                StorageDevice1.SelectedIndex = 0;
+            }
+            if (sd2name != "")
+            {
+                int index = 0;
+                for (int x = 0; x != storageDevices.Count; x++)
+                {
+                    if (storageDevices[x].GetDeviceName() == sd2name)
+                    {
+                        index = x;
+                        break;
+                    }
+                }
+                StorageDevice2.SelectedIndex = index;
+            }
+            else {
+                StorageDevice2.SelectedIndex = 0;
+            }
+
+            
+            
         }
 
         public void UpdateStorageDeviceItems(int row = 0) {
