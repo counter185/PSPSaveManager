@@ -1,6 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:PSPSync">
+                    xmlns:local="clr-namespace:PSPSync"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     <SolidColorBrush x:Key="mainColor" Color="#252525" />
     <SolidColorBrush x:Key="subColor" Color="#171717" />
+    <LinearGradientBrush x:Key="leftSaveListBG">
+        <GradientStop Color="#FF020016" Offset="0"/>
+        <GradientStop Color="#70000000" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="rightSaveListBG">
+        <GradientStop Color="#FF160000" Offset="0"/>
+        <GradientStop Color="#70000000" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>

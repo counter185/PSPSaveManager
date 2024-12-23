@@ -9,19 +9,25 @@
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
-    <Grid Background="{StaticResource mainColor}">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0,1">
+            <GradientStop Color="#FF090909" Offset="0"/>
+            <GradientStop Color="#FF111113" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
 
         <ComboBox x:Name="StorageDevice1" HorizontalAlignment="Left" Margin="10,49,0,0" VerticalAlignment="Top" Width="414" SelectionChanged="StorageDevice1_SelectionChanged" Background="{StaticResource subColor}" Foreground="Black" BorderBrush="{StaticResource subColor}"/>
-        <ListBox x:Name="SD1s" Margin="10,76,0,10" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" Width="414" Background="{StaticResource subColor}" BorderBrush="Transparent"/>
+        <ListBox x:Name="SD1s" Margin="10,76,0,10" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch" Width="414" Background="{StaticResource leftSaveListBG}" BorderBrush="Transparent"/>
         <Button x:Name="SD1toSD2" Content="&gt;" Margin="432,151,0,0" VerticalAlignment="Top" Click="SD1toSD2_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent" Height="27" ToolTip="Copy save selected on the left to the device on the right" HorizontalAlignment="Left" Width="36"/>
         <Button x:Name="SD2toSD1" Content="&lt;" Margin="432,222,0,0" VerticalAlignment="Top" Click="SD2toSD1_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent" Height="28" ToolTip="Copy save selected on the right to the device on the left" HorizontalAlignment="Left" Width="36"/>
         <ComboBox x:Name="StorageDevice2" Margin="0,49,10,0" VerticalAlignment="Top" SelectionChanged="StorageDevice2_SelectionChanged" HorizontalAlignment="Right" Width="414" Background="{StaticResource subColor}" Foreground="Black" BorderBrush="{StaticResource subColor}"/>
-        <ListBox x:Name="SD2s" Margin="0,76,10,10" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Width="414" Background="{StaticResource subColor}" BorderBrush="Transparent"/>
+        <ListBox x:Name="SD2s" Margin="0,76,10,10" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" Width="414" Background="{StaticResource rightSaveListBG}" BorderBrush="Transparent"/>
         <Button x:Name="Sync" Content="Sync" Margin="432,291,0,0" VerticalAlignment="Top" Click="Sync_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent" HorizontalAlignment="Left" Width="36"/>
         <Button x:Name="SD1Delete" Content="Delete" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Width="45" Click="SD1Delete_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
         <Button x:Name="SD2Delete" Content="Delete" Margin="0,24,10,0" VerticalAlignment="Top" Click="SD2Delete_Click" HorizontalAlignment="Right" Width="45" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
         <Button x:Name="Config" Content="Directories" Margin="0,10,356,0" VerticalAlignment="Top" Click="Config_Click" HorizontalAlignment="Right" Width="74" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
-        <Button x:Name="RescanDrives" Content="Refresh drives" Margin="362,10,0,0" VerticalAlignment="Top" Click="RescanDrives_Click" HorizontalAlignment="Left" Width="85" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
+        <Button x:Name="RescanDrives" Content="Refresh drives" Margin="339,10,0,0" VerticalAlignment="Top" Click="RescanDrives_Click" HorizontalAlignment="Left" Width="85" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
         <Rectangle x:Name="AllDisabled" Visibility="Hidden" Fill="#7F000000" Margin="10" Stroke="#00000000"/>
 
     </Grid>
