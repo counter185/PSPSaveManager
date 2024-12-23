@@ -5,14 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PSPSync"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label x:Name="MissingIcon" Content="Missing ICON0.PNG" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Height="43" Width="126" Foreground="White"/>
-        <Image x:Name="GamePic" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="136" Margin="0,13,0,0"/>
-        <Label x:Name="GameName" Content="Game name" HorizontalAlignment="Left" Margin="141,0,0,0" VerticalAlignment="Top" FontSize="14" Foreground="White"/>
-        <Label x:Name="GameInfo" Content="info" HorizontalAlignment="Left" Margin="141,13,0,0" VerticalAlignment="Top" FontSize="11" Foreground="White"/>
-        <Label x:Name="GameDate" Content="directory" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White"/>
-        <Label x:Name="GameInfo2" Content="info" HorizontalAlignment="Left" Margin="141,29,0,0" VerticalAlignment="Top" FontSize="11" Foreground="White"/>
-
-    </Grid>
+             >
+    <StackPanel Orientation="Vertical">
+        <Label x:Name="GameDate" Content="directory" HorizontalAlignment="Stretch" Margin="0,-7,0,0" FontSize="10" Foreground="White"/>
+        <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Image x:Name="GamePic" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="136" Margin="0,0,0,0"/>
+                <Label x:Name="MissingIcon" Content="Missing ICON0.PNG" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Height="43" Width="126" Foreground="White"/>
+            </Grid>
+            <StackPanel Orientation="Vertical">
+                <Label x:Name="GameName" Content="Game name" Margin="0,-10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Foreground="White"/>
+                <Label x:Name="GameInfo2" Content="info" Margin="0,-10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" Foreground="#A0FFFFFF"/>
+                <Rectangle Fill="#40FFFFFF" Height="0.5"/>
+                <Label x:Name="GameInfo" Content="info" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Foreground="#70FFFFFF"/>
+            </StackPanel>
+        </StackPanel>
+        <Rectangle Margin="0,3" Fill="#80FFFFFF" Height="1"/>
+    </StackPanel>
 </UserControl>

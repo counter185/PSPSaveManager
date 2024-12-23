@@ -79,40 +79,50 @@ namespace PSPSync
             }
             List<SaveMeta> saves = new List<SaveMeta>();
             string[] ss = client.DirectoryListSimple(mainDir);
-            foreach (string dr2 in ss)
+            foreach (string saveSubdir in ss)
             {
-                string a = mainDir + dr2;
-                if (!client.FileExists(a + "/PARAM.SFO"))
+                string fullSaveSubdir = mainDir + saveSubdir;
+                if (!client.FileExists(fullSaveSubdir + "/PARAM.SFO"))
                 {
                     continue;
                 }
-                string title;
-                string info;
-                string info2;
-                byte[] reader = new byte[128];
-                MemoryStream b = client.Download(a + "/PARAM.SFO");
-                b.Position = 0;
-                b.Seek(0x110, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                info2 = Encoding.UTF8.GetString(reader);
-                b.Seek(0x1230, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                info = Encoding.UTF8.GetString(reader);
-                b.Seek(0x12B0, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                title = Encoding.UTF8.GetString(reader);
-                b.Close();
 
-
-                ImageSource thumbnailImg = null;
-                if (client.FileExists(a + "/ICON0.PNG"))
+                Stream fstream = null;
+                try
                 {
-                    MemoryStream imageStream = client.Download(a + "/ICON0.PNG");
-                    imageStream.Position = 0;
-                    thumbnailImg = MTPSaveDir.BitmapFromStream(imageStream);
-                }
+                    fstream = client.Download(fullSaveSubdir + "/PARAM.SFO");
+                    fstream.Seek(0, SeekOrigin.Begin);
+                    SFOReader.SFOFile sfoData = SFOReader.ReadSFO(fstream);
 
-                saves.Add(new SaveMeta(title, info, info2, a, thumbnailImg, new System.DateTime(0)));
+                    ImageSource thumbnailImg = null;
+                    if (client.FileExists(fullSaveSubdir + "/ICON0.PNG"))
+                    {
+                        MemoryStream imageStream = client.Download(fullSaveSubdir + "/ICON0.PNG");
+                        imageStream.Position = 0;
+                        thumbnailImg = MTPSaveDir.BitmapFromStream(imageStream);
+                    }
+
+                    saves.Add(new SaveMeta
+                    {
+                        name = sfoData.title,
+                        info = sfoData.info,
+                        info2 = sfoData.info2,
+                        directory = saveSubdir,
+                        thumbnail = thumbnailImg,
+                        timeModified = new System.DateTime(0)
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Failed to read {saveSubdir}: {e.Message}");
+                }
+                finally
+                {
+                    if (fstream != null)
+                    {
+                        fstream.Close();
+                    }
+                }
             }
             return saves;
         }

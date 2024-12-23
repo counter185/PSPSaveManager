@@ -76,40 +76,50 @@ namespace PSPSync
             }
             List<SaveMeta> saves = new List<SaveMeta>();
             string[] ss = parent.device.GetDirectories(dir);
-            foreach (string a in ss)
+            foreach (string saveSubdir in ss)
             {
-                if (!parent.device.FileExists(a + "/PARAM.SFO"))
+                if (!parent.device.FileExists(saveSubdir + "/PARAM.SFO"))
                 {
                     continue;
                 }
-                string title;
-                string info;
-                string info2;
-                byte[] reader = new byte[128];
-                MemoryStream b = new MemoryStream();
-                parent.device.DownloadFile(a + "/PARAM.SFO", b);
-                b.Position = 0;
-                b.Seek(0x110, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                info2 = Encoding.UTF8.GetString(reader);
-                b.Seek(0x1230, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                info = Encoding.UTF8.GetString(reader);
-                b.Seek(0x12B0, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                title = Encoding.UTF8.GetString(reader);
-                b.Close();
-
-                MemoryStream imageStream = new MemoryStream();
-                ImageSource imsr = null;
-                if (parent.device.FileExists(a + "/ICON0.PNG"))
+                Stream fstream = null;
+                try
                 {
-                    parent.device.DownloadFile(a + "/ICON0.PNG", imageStream);
-                    imsr = BitmapFromStream(imageStream);
-                }
-                imageStream.Position = 0;
+                    fstream = new MemoryStream();
+                    parent.device.DownloadFile(saveSubdir + "/PARAM.SFO", fstream);
+                    fstream.Seek(0, SeekOrigin.Begin);
+                    SFOReader.SFOFile sfoData = SFOReader.ReadSFO(fstream);
 
-                saves.Add(new SaveMeta(title, info, info2, a, imsr, parent.device.GetFileInfo(a + "/PARAM.SFO").LastWriteTime.Value));
+                    MemoryStream imageStream = new MemoryStream();
+                    ImageSource imsr = null;
+                    if (parent.device.FileExists(saveSubdir + "/ICON0.PNG"))
+                    {
+                        parent.device.DownloadFile(saveSubdir + "/ICON0.PNG", imageStream);
+                        imsr = BitmapFromStream(imageStream);
+                    }
+                    imageStream.Position = 0;
+
+                    saves.Add(new SaveMeta
+                    {
+                        name = sfoData.title,
+                        info = sfoData.info,
+                        info2 = sfoData.info2,
+                        directory = saveSubdir,
+                        thumbnail = imsr,
+                        timeModified = parent.device.GetFileInfo(saveSubdir + "/PARAM.SFO").LastWriteTime.Value
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Failed to read {saveSubdir}: {e.Message}");
+                }
+                finally
+                {
+                    if (fstream != null)
+                    {
+                        fstream.Close();
+                    }
+                }
             }
             return saves;
         }

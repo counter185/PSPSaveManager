@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
@@ -43,27 +44,36 @@ namespace PSPSync
             {
                 return null;
             }
-            string[] ss = Directory.GetDirectories(mainDir);
-            foreach (string a in ss) {
-                if (!File.Exists(a + "/PARAM.SFO")) {
+            string[] subdirs = Directory.GetDirectories(mainDir);
+            foreach (string saveSubdir in subdirs) {
+                if (!File.Exists(saveSubdir + "/PARAM.SFO")) {
                     continue;
                 }
-                string title;
-                string info;
-                string info2;
-                byte[] reader = new byte[128];
-                FileStream b = new FileStream(a + "/PARAM.SFO", FileMode.Open, FileAccess.Read, FileShare.Read);
-                b.Seek(0x110, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                info2 = Encoding.UTF8.GetString(reader);
-                b.Seek(0x1230, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                info = Encoding.UTF8.GetString(reader);
-                b.Seek(0x12B0, SeekOrigin.Begin);
-                b.Read(reader, 0, 128);
-                title = Encoding.UTF8.GetString(reader);
-                saves.Add(new SaveMeta(title, info, info2, a, (File.Exists(a+"/ICON0.PNG") ? BitmapFromUri(new Uri(a + "/ICON0.PNG")) : null), File.GetLastWriteTime(a + "/PARAM.SFO")));
-                b.Close();
+                Stream fstream = null;
+                try
+                {
+                    fstream = new FileStream(saveSubdir + "/PARAM.SFO", FileMode.Open, FileAccess.Read, FileShare.Read);
+                    SFOReader.SFOFile sfoData = SFOReader.ReadSFO(fstream);
+
+                    saves.Add(new SaveMeta
+                    {
+                        name = sfoData.title,
+                        info = sfoData.info,
+                        info2 = sfoData.info2,
+                        directory = saveSubdir,
+                        thumbnail = File.Exists(saveSubdir + "/ICON0.PNG") ? BitmapFromUri(new Uri(saveSubdir + "/ICON0.PNG")) : null,
+                        timeModified = File.GetLastWriteTime(saveSubdir + "/PARAM.SFO")
+                    });
+                } catch (Exception e)
+                {
+                    Console.WriteLine($"Failed to read {saveSubdir}: {e.Message}");
+                } finally
+                {
+                    if (fstream != null)
+                    {
+                        fstream.Close();
+                    }
+                }
             }
             return saves;
         }

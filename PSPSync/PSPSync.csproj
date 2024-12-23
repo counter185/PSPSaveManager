@@ -74,6 +74,7 @@
     <Compile Include="SaveListItem.xaml.cs">
       <DependentUpon>SaveListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SFOReader.cs" />
     <Page Include="Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

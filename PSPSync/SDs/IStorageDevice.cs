@@ -21,6 +21,9 @@ namespace PSPSync
         public ImageSource thumbnail;
         public DateTime timeModified;
 
+        public SaveMeta() { }
+
+        [Obsolete]
         public SaveMeta(string nm2, string if2, string if3, string dir2, ImageSource th2, DateTime mod) {
             name = nm2;
             info = if2;
