@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,9 +25,15 @@ namespace PSPSync
 
         public void DeleteSave(string name)
         {
-            foreach (string a in parent.device.GetFiles(dir + "/" + name)) {
-                //MessageBox.Show("am bouta delet " + a);
-                parent.device.DeleteFile(a);
+            try
+            {
+                foreach (string a in parent.device.GetFiles(dir + "/" + name))
+                {
+                    parent.device.DeleteFile(a);
+                }
+            } catch (Exception e)
+            {
+                MessageBox.Show($"Error deleting file:\n{e.Message}");
             }
         }
 
@@ -70,7 +77,13 @@ namespace PSPSync
 
         public List<SaveMeta> ScanSaves()
         {
-            if (!this.IsConnected() || !parent.device.DirectoryExists(dir))
+            try
+            {
+                if (!this.IsConnected() || !parent.device.DirectoryExists(dir))
+                {
+                    return null;
+                }
+            } catch (Exception e)
             {
                 return null;
             }

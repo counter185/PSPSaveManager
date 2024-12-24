@@ -5,18 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PSPSync"
         mc:Ignorable="d"
-        Title="CompareWindow" Height="344" Width="800">
-    <Grid Background="{StaticResource mainColor}">
-        <Rectangle Fill="{StaticResource subColor}" HorizontalAlignment="Left" Height="95" Margin="10,91,0,0" Stroke="Transparent" VerticalAlignment="Top" Width="387"/>
-        <Rectangle Fill="{StaticResource subColor}" HorizontalAlignment="Left" Height="95" Margin="399,91,0,0" Stroke="Transparent" VerticalAlignment="Top" Width="393"/>
-        <local:SaveListItem x:Name="srcItem" HorizontalAlignment="Left" Height="100" Margin="10,91,0,0" VerticalAlignment="Top" Width="384"/>
-        <local:SaveListItem x:Name="dstItem" HorizontalAlignment="Left" Height="100" Margin="399,91,0,0" VerticalAlignment="Top" Width="384"/>
-        <Label x:Name="title" Content="A save already exists in {}" HorizontalAlignment="Left" Margin="134,24,0,0" VerticalAlignment="Top" Width="522" FontSize="16" Foreground="White"/>
-        <Label x:Name="srcDesc" Content="already in {}" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center" Foreground="White"/>
-        <Label Content="being copied" HorizontalAlignment="Left" Margin="394,191,0,0" VerticalAlignment="Top" Width="384" HorizontalContentAlignment="Center" Foreground="White"/>
-        <Button x:Name="KeepSRC" Content="Keep" HorizontalAlignment="Left" Margin="162,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepSRC_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
-        <Button x:Name="KeepDST" Content="Overwrite" HorizontalAlignment="Left" Margin="553,262,0,0" VerticalAlignment="Top" Width="75" Click="KeepDST_Click" Background="{StaticResource subColor}" Foreground="White" BorderBrush="Transparent"/>
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="164" Margin="398,69,0,0" VerticalAlignment="Top" Width="1" RenderTransformOrigin="0.5,0.5">
+        Title="CompareWindow" Height="386" Width="1022">
+    <Grid Background="{StaticResource defaultWindowBG}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="item1" Margin="0,91,0,138" Grid.Column="0">
+            <Rectangle Fill="{StaticResource defaultButtonBG}" Margin="0,0" Stroke="Transparent"/>
+            <local:SaveListItem x:Name="srcItem" Margin="0,0,0,0" />
+        </Grid>
+        <Grid x:Name="item2" Margin="0,91,0,138" Grid.Column="1">
+            <Rectangle Fill="{StaticResource defaultButtonBG}" Margin="0,0" Stroke="Transparent"/>
+            <local:SaveListItem x:Name="dstItem" Margin="0,0,0,0" />
+        </Grid>
+        <Label x:Name="title" Content="A save already exists in {}" HorizontalAlignment="Left" Margin="134,24,0,0" VerticalAlignment="Top" Width="522" FontSize="16" Foreground="White" Grid.ColumnSpan="2"/>
+        <Label x:Name="srcDesc" Content="already in {}" HorizontalAlignment="Center" Margin="0,0,0,107" Width="384" HorizontalContentAlignment="Center" Foreground="White" Height="26" VerticalAlignment="Bottom"/>
+        <Label Content="being copied" HorizontalAlignment="Center" Margin="0,0,0,107" Width="368" HorizontalContentAlignment="Center" Foreground="White" Grid.Column="1" Height="26" VerticalAlignment="Bottom"/>
+        <Button Style="{StaticResource ButtonStyle1}" x:Name="KeepSRC" Content="Keep" HorizontalAlignment="Center" Margin="0,0,0,37" Width="136" Click="KeepSRC_Click" Height="26" VerticalAlignment="Bottom"/>
+        <Button Style="{StaticResource ButtonStyle1}" x:Name="KeepDST" Content="Overwrite" HorizontalAlignment="Center" Margin="0,0,0,36" Width="142" Click="KeepDST_Click" Grid.Column="1" Height="27" VerticalAlignment="Bottom"/>
+        <Rectangle Fill="White" HorizontalAlignment="Left" Height="300" Margin="0,0,0,0" VerticalAlignment="Center" Width="0.5" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="-1"/>

@@ -23,7 +23,7 @@ namespace PSPSync
                     {
                         if (device.DirectoryExists(a + "/PSP/SAVEDATA"))
                         {
-                            saveDirs.Add(new MTPSaveDir(this, a + "/PSP/SAVEDATA", $"[MTP:{device.FriendlyName}{a}] Android (or PSP via MTP)"));
+                            saveDirs.Add(new MTPSaveDir(this, a + "/PSP/SAVEDATA", $"[MTP:{device.FriendlyName}{a}] {device.Manufacturer} {device.Model}"));
                         }
                         if (device.DirectoryExists(a + "/switch/ppsspp/config/ppsspp/PSP/SAVEDATA"))
                         {

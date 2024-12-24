@@ -19,6 +19,13 @@
         <GradientStop Color="#A0202020" Offset="1.0"/>
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="defaultWindowBG" EndPoint="0,1">
+        <GradientStop Color="#FF090909" Offset="0"/>
+        <GradientStop Color="#FF111113" Offset="1"/>
+    </LinearGradientBrush>
+
+
+
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
