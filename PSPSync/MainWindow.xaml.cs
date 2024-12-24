@@ -45,21 +45,21 @@ namespace PSPSync
         }
 
         public void UpdateSizes() {
-            double epic = (this.Width - 51) / 2d;
-            SD1s.Width = epic - SD1s.Margin.Left;
-            StorageDevice1.Width = epic - SD1s.Margin.Left;
-            SD2s.Width = epic - SD2s.Margin.Right;
-            StorageDevice2.Width = epic - SD2s.Margin.Right;
+            double onePanelWidth = (this.Width / 2d) - (SD1toSD2.Width - 14);
+            SD1s.Width = onePanelWidth - SD1s.Margin.Left;
+            StorageDevice1.Width = onePanelWidth - SD1s.Margin.Left;
+            SD2s.Width = onePanelWidth - SD2s.Margin.Right;
+            StorageDevice2.Width = onePanelWidth - SD2s.Margin.Right;
 
-            Thickness thiccness = SD1toSD2.Margin;
-            thiccness.Left = epic;
-            SD1toSD2.Margin = thiccness;
+            Thickness marginMod = SD1toSD2.Margin;
+            marginMod.Left = onePanelWidth;
+            SD1toSD2.Margin = marginMod;
 
-            thiccness.Top = SD2toSD1.Margin.Top;
-            SD2toSD1.Margin = thiccness;
+            marginMod.Top = SD2toSD1.Margin.Top;
+            SD2toSD1.Margin = marginMod;
 
-            thiccness.Top = Sync.Margin.Top;
-            Sync.Margin = thiccness;
+            marginMod.Top = Sync.Margin.Top;
+            Sync.Margin = marginMod;
         }
 
         protected override void OnStateChanged(EventArgs e)
@@ -385,7 +385,7 @@ namespace PSPSync
                             SetMgrEnabled(true);
                             UpdateStorageDeviceItems(updateDevice);
                         });
-                    a.Show();
+                    a.ShowDialog();
                 }
                 /*MessageBoxResult a = MessageBox.Show($"Destination already has a {GetGameID(srcMeta.directory)} save file. Overwrite?", "Warning", MessageBoxButton.YesNo);
                 if (a == MessageBoxResult.No)
