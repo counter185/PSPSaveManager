@@ -111,21 +111,23 @@ namespace PSPSync
 
         public void WriteSave(string directoryName, NamedStream[] files)
         {
-            string dr = mainDir + "/" + directoryName;
+            const int BUFFER_SIZE = int.MaxValue;
+            string dr = mainDir + directoryName;
             if (!Directory.Exists(dr))
             {
                 Directory.CreateDirectory(dr);
             }
-            foreach (NamedStream stm in files) {
-                FileStream a = File.Create(dr + "/" + stm.name);
-                long rem = stm.stream.Length;
+            foreach (NamedStream file in files) {
+                FileStream a = File.Create(dr + "/" + file.name);
                 int offset = 0;
-                byte[] read = new byte[1000000];
-                while (rem > 0) {
-                    stm.stream.Read(read, offset, (int)Math.Min(rem, 1000000));
-                    a.Write(read, offset, (int)Math.Min(rem, 1000000));
-                    rem -= Math.Min(rem, 1000000);
-                    offset += 1000000;
+                long bytesRemaining = file.stream.Length;
+                byte[] readBuffer = new byte[Math.Min(bytesRemaining, BUFFER_SIZE)];
+                while (bytesRemaining > 0)
+                {
+                    int bytesRed = file.stream.Read(readBuffer, offset, (int)Math.Min(bytesRemaining, BUFFER_SIZE));
+                    a.Write(readBuffer, offset, bytesRed);
+                    bytesRemaining -= bytesRed;
+                    offset += bytesRed;
                 }
                 a.Close();
             }
